@@ -13,10 +13,11 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
-            'name' => 'Demo User',
-            'email' => 'demo@swiftnote.com',
-            'password' => Hash::make('yFvvYxs!RYPR1fY2gNu&%Wy#LwFpicik'),
-        ]);
+        User::query()
+            ->create([
+                'name' => 'Demo User',
+                'email' => 'demo@swiftnote.com',
+                'password' => Hash::make('yFvvYxs!RYPR1fY2gNu&%Wy#LwFpicik'),
+            ]);
     }
 }
