@@ -1,50 +1,6 @@
 <div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
     {{-- Header / Navigation --}}
-    <header class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                {{-- Brand Logo and Name --}}
-                <div class="flex items-center space-x-3">
-                    <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 shadow-md">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                        </svg>
-                    </div>
-                    <h1 class="text-xl sm:text-2xl font-bold text-slate-900">SwiftNote</h1>
-                </div>
-
-                {{-- User Info and Logout --}}
-                <div class="flex items-center space-x-2 sm:space-x-4">
-                    {{-- User Avatar --}}
-                    <div class="hidden sm:flex items-center space-x-3">
-                        <div class="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-br from-blue-100 to-blue-200 border-2 border-blue-300">
-                            <svg class="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
-                            </svg>
-                        </div>
-                        <span class="text-sm font-medium text-slate-700">{{ Auth::user()->name ?? Auth::user()->email }}</span>
-                    </div>
-
-                    {{-- Logout Button --}}
-                    <button
-                        wire:click="logout"
-                        class="inline-flex items-center px-3 py-2 sm:px-4 sm:py-2 rounded-lg text-sm font-medium
-                               text-slate-700 hover:text-slate-900
-                               bg-slate-100 hover:bg-slate-200
-                               border border-slate-300
-                               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
-                               transition duration-150 ease-in-out"
-                        wire:loading.attr="disabled"
-                    >
-                        <svg class="w-4 h-4 sm:mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-                        </svg>
-                        <span class="hidden sm:inline">Logout</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </header>
+    <livewire:top-navigation />
 
     {{-- Main Content --}}
     <main class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
@@ -53,7 +9,7 @@
             <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">
                 Welcome back{{ Auth::user()->name ? ', ' . explode(' ', Auth::user()->name)[0] : '' }}!
             </h2>
-            <p class="text-slate-600">Manage your notes and stay organized with SwiftNote.</p>
+            <p class="text-slate-600">Manage your notes and stay organized with NoteLoom.</p>
         </div>
 
         {{-- Quick Stats --}}

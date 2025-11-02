@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
         User::query()
             ->create([
                 'name' => 'Demo User',
-                'email' => 'demo@swiftnote.com',
+                'email' => 'demo@noteloom.com',
                 'password' => Hash::make('yFvvYxs!RYPR1fY2gNu&%Wy#LwFpicik'),
             ]);
     }

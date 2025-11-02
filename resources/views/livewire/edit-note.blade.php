@@ -1,30 +1,6 @@
 <div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
     {{-- Header / Navigation --}}
-    <header class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                {{-- Brand Logo and Name --}}
-                <a href="{{ route('dashboard') }}" class="flex items-center space-x-3 hover:opacity-80 transition">
-                    <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 shadow-md">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                        </svg>
-                    </div>
-                    <h1 class="text-xl sm:text-2xl font-bold text-slate-900">SwiftNote</h1>
-                </a>
-
-                {{-- User Info --}}
-                <div class="hidden sm:flex items-center space-x-3">
-                    <div class="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-br from-blue-100 to-blue-200 border-2 border-blue-300">
-                        <svg class="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
-                        </svg>
-                    </div>
-                    <span class="text-sm font-medium text-slate-700">{{ Auth::user()->name ?? Auth::user()->email }}</span>
-                </div>
-            </div>
-        </div>
-    </header>
+    <livewire:top-navigation :show-logout="false" />
 
     {{-- Main Content --}}
     <main class="max-w-4xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
