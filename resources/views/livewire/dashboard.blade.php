@@ -49,7 +49,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-slate-600 mb-1">Last Updated</p>
-                        <p class="text-lg font-semibold text-slate-900">{{ $lastUpdated }}</p>
+                        <p class="text-lg font-semibold text-slate-900" wire:poll.60000ms>{{ $lastUpdated }}</p>
                     </div>
                     <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-green-50">
                         <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
