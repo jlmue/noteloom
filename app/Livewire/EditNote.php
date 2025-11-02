@@ -3,7 +3,6 @@
 namespace App\Livewire;
 
 use App\Models\Note;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -33,7 +32,7 @@ class EditNote extends Component
         $this->is_important = $note->is_important;
     }
 
-    public function update(): RedirectResponse
+    public function update()
     {
         $this->validate();
 
