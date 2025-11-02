@@ -20,7 +20,7 @@ class CreateNote extends Component
 
     public bool $is_important = false;
 
-    public function save(): RedirectResponse
+    public function save()
     {
         $this->validate();
 
@@ -37,7 +37,7 @@ class CreateNote extends Component
         return redirect()->route('dashboard');
     }
 
-    public function cancel(): RedirectResponse
+    public function cancel()
     {
         return redirect()->route('dashboard');
     }
