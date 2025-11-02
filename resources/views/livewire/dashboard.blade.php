@@ -63,7 +63,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-slate-600 mb-1">Total Notes</p>
-                        <p class="text-3xl font-bold text-slate-900">0</p>
+                        <p class="text-3xl font-bold text-slate-900">{{ $totalNotes }}</p>
                     </div>
                     <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-blue-50">
                         <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -78,7 +78,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-slate-600 mb-1">Important</p>
-                        <p class="text-3xl font-bold text-slate-900">0</p>
+                        <p class="text-3xl font-bold text-slate-900">{{ $importantNotes }}</p>
                     </div>
                     <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-amber-50">
                         <svg class="w-6 h-6 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
@@ -93,7 +93,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-slate-600 mb-1">Last Updated</p>
-                        <p class="text-lg font-semibold text-slate-900">No notes yet</p>
+                        <p class="text-lg font-semibold text-slate-900">{{ $lastUpdated }}</p>
                     </div>
                     <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-green-50">
                         <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -104,49 +104,8 @@
             </div>
         </div>
 
-        {{-- Empty State / Notes Area --}}
-        <div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
-            <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
-                <h3 class="text-lg font-semibold text-slate-900">Your Notes</h3>
-                <a href="{{ route('notes.create') }}" class="inline-flex items-center px-4 py-2 rounded-lg font-medium text-white
-                               bg-gradient-to-r from-blue-500 to-blue-600
-                               hover:from-blue-600 hover:to-blue-700
-                               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
-                               shadow-md hover:shadow-lg
-                               transform hover:-translate-y-0.5
-                               transition-all duration-150 ease-in-out">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                    </svg>
-                    New Note
-                </a>
-            </div>
-
-            {{-- Empty State --}}
-            <div class="px-6 py-16 text-center">
-                <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-slate-100 mb-6">
-                    <svg class="w-10 h-10 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                    </svg>
-                </div>
-                <h3 class="text-xl font-semibold text-slate-900 mb-2">No notes yet</h3>
-                <p class="text-slate-600 mb-6 max-w-md mx-auto">
-                    Get started by creating your first note. Keep track of your thoughts, ideas, and important information.
-                </p>
-                <a href="{{ route('notes.create') }}" class="inline-flex items-center px-6 py-3 rounded-lg font-medium text-white
-                               bg-gradient-to-r from-blue-500 to-blue-600
-                               hover:from-blue-600 hover:to-blue-700
-                               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
-                               shadow-lg hover:shadow-xl
-                               transform hover:-translate-y-0.5
-                               transition-all duration-150 ease-in-out">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                    </svg>
-                    Create Your First Note
-                </a>
-            </div>
-        </div>
+        {{-- Notes List --}}
+        <livewire:notes-list />
     </main>
 
     {{-- Footer --}}

@@ -2,6 +2,7 @@
 
 use App\Livewire\CreateNote;
 use App\Livewire\Dashboard;
+use App\Livewire\EditNote;
 use App\Livewire\LoginForm;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +17,5 @@ Route::middleware('auth')
     ->group(function () {
         Route::get('/dashboard', Dashboard::class)->name('dashboard');
         Route::get('/notes/create', CreateNote::class)->name('notes.create');
+        Route::get('/notes/{note}/edit', EditNote::class)->name('notes.edit');
     });

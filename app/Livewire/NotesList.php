@@ -4,35 +4,36 @@ namespace App\Livewire;
 
 use App\Models\Note;
 use Illuminate\Contracts\View\Factory;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Livewire\Component;
 
-class Dashboard extends Component
+class NotesList extends Component
 {
-    public function logout(): Redirector|RedirectResponse
+    public function delete($noteId): void
     {
-        Auth::logout();
+        $note = Note::query()
+            ->where('id', $noteId)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
 
-        session()->invalidate();
-        session()->regenerateToken();
+        $note->delete();
 
-        return redirect('/');
+        session()->flash('success', 'Note deleted successfully!');
     }
 
     public function render(): Factory|\Illuminate\Contracts\View\View|View
     {
         $notes = Note::query()
             ->where('user_id', Auth::id())
+            ->orderBy('is_important', 'desc')
             ->orderBy('updated_at', 'desc')
             ->get();
 
-        return view('livewire.dashboard', [
+        return view('livewire.notes-list', [
+            'notes' => $notes,
             'totalNotes' => $notes->count(),
             'importantNotes' => $notes->where('is_important', true)->count(),
-            'lastUpdated' => $notes->first()?->updated_at?->diffForHumans() ?? 'No notes yet',
         ]);
     }
 }
