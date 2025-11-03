@@ -4,7 +4,6 @@ namespace App\Livewire;
 
 use App\Models\Note;
 use Illuminate\Contracts\View\Factory;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Livewire\Attributes\Validate;

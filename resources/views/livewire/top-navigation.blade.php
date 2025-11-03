@@ -13,11 +13,13 @@
 
             {{-- User Info and Logout --}}
             <div class="flex items-center space-x-2 sm:space-x-4">
-                {{-- User Avatar --}}
-                <div class="hidden sm:flex items-center space-x-3">
-                    <div class="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-br border-2 border-slate-800 avatar">
+                {{-- User Avatar and Name --}}
+                <div class="flex items-center space-x-3">
+                    {{-- Avatar (visible on all screens) --}}
+                    <div class="flex items-center justify-center w-8 h-8 rounded-full bg-slate-900 border-2 border-slate-900 avatar">
                     </div>
-                    <span class="text-sm font-medium text-slate-700">{{ Auth::user()->name ?? Auth::user()->email }}</span>
+                    {{-- Name (hidden on mobile, visible on desktop) --}}
+                    <span class="hidden sm:inline text-sm font-medium text-slate-700">{{ Auth::user()->name ?? Auth::user()->email }}</span>
                 </div>
 
                 {{-- Logout Button --}}
@@ -43,7 +45,8 @@
     <style lang="scss">
         .avatar {
             background-image: url('/images/avatar.png');
-            background-size: cover;
+            background-size: 110%;
+            background-position: center;
         }
     </style>
 </header>

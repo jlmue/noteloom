@@ -21,10 +21,10 @@ class NoteSeeder extends Seeder
         // Create exactly 20 notes for the user
         // The factory will randomly select from the predefined examples
         Note::factory()
-            ->count(20)
+            ->count(100)
             ->for($user)
             ->create();
 
-        $this->command->info('✅ Successfully created 20 example notes for user: ' . $user->name);
+        $this->command->info('✅ Successfully created 20 example notes for user: '.$user->name);
     }
 }

@@ -12,8 +12,8 @@
     @endif
 
     {{-- Notes List or Empty State --}}
-    @if ($notes->isEmpty())
-        {{-- Empty State --}}
+    @if ($totalNotes === 0)
+        {{-- Empty State - No notes at all --}}
         <div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
             <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
                 <h3 class="text-lg font-semibold text-slate-900">Your Notes</h3>
@@ -58,47 +58,128 @@
     @else
         {{-- Notes Grid --}}
         <div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden mb-6">
-            <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
-                <div>
-                    <h3 class="text-lg font-semibold text-slate-900">Your Notes</h3>
-                    <p class="text-sm text-slate-600 mt-0.5">{{ $totalNotes }} {{ Str::plural('note', $totalNotes) }}</p>
+            <div class="px-4 sm:px-6 py-4 border-b border-slate-200">
+                {{-- Header Row --}}
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h3 class="text-lg font-semibold text-slate-900">Your Notes</h3>
+                        <p class="text-sm text-slate-600 mt-0.5">
+                            @if ($hasSearch)
+                                {{ $filteredCount }} of {{ $totalNotes }} {{ Str::plural('note', $totalNotes) }}
+                            @else
+                                {{ $totalNotes }} {{ Str::plural('note', $totalNotes) }}
+                            @endif
+                        </p>
+                    </div>
+                    <a href="{{ route('notes.create') }}" class="inline-flex items-center px-3 sm:px-4 py-2 rounded-lg font-medium text-white
+                               bg-gradient-to-r from-blue-500 to-blue-600
+                               hover:from-blue-600 hover:to-blue-700
+                               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+                               shadow-md hover:shadow-lg
+                               transform hover:-translate-y-0.5
+                               transition-all duration-150 ease-in-out
+                               text-sm">
+                        <svg class="w-4 h-4 mr-1.5 sm:mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        <span class="hidden sm:inline">New Note</span>
+                        <span class="sm:hidden">New</span>
+                    </a>
                 </div>
-                <a href="{{ route('notes.create') }}" class="inline-flex items-center px-4 py-2 rounded-lg font-medium text-white
-                           bg-gradient-to-r from-blue-500 to-blue-600
-                           hover:from-blue-600 hover:to-blue-700
-                           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
-                           shadow-md hover:shadow-lg
-                           transform hover:-translate-y-0.5
-                           transition-all duration-150 ease-in-out">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                    </svg>
-                    New Note
-                </a>
+
+                {{-- Search Input --}}
+                <div class="relative">
+                    {{-- Search Icon --}}
+                    <div class="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                        <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </div>
+
+                    {{-- Search Input Field --}}
+                    <input
+                        type="text"
+                        wire:model.live.debounce.300ms="searchText"
+                        placeholder="Search notes by title or content..."
+                        class="w-full pl-10 pr-10 py-2.5 rounded-lg border border-slate-300
+                               text-slate-900 placeholder-slate-500
+                               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                               transition-all duration-150 ease-in-out
+                               text-sm md:text-base"
+                    >
+
+                    {{-- Clear Button (shows when search has text) --}}
+                    @if ($searchText !== '')
+                        <button
+                            type="button"
+                            wire:click="$set('searchText', '')"
+                            class="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-full
+                                   text-slate-400 hover:text-slate-600 hover:bg-slate-100
+                                   focus:outline-none focus:ring-2 focus:ring-blue-500
+                                   transition-all duration-150 ease-in-out"
+                            aria-label="Clear search">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    @endif
+
+                    {{-- Loading Indicator (shows during search) --}}
+                    <div wire:loading wire:target="searchText" class="absolute right-3 top-1/2 -translate-y-1/2">
+                        <svg class="animate-spin h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </div>
+                </div>
             </div>
 
-            <div class="p-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    @foreach ($notes as $note)
+            <div class="p-4 sm:p-6">
+                {{-- No Search Results State --}}
+                @if ($hasSearch && $filteredCount === 0)
+                    <div class="text-center py-12">
+                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-100 mb-4">
+                            <svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-slate-900 mb-2">No notes found</h3>
+                        <p class="text-slate-600 mb-4">
+                            No notes match your search for "<span class="font-medium">{{ $searchText }}</span>"
+                        </p>
+                        <button
+                            wire:click="$set('searchText', '')"
+                            class="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium
+                                   text-blue-700 hover:text-blue-900
+                                   bg-blue-50 hover:bg-blue-100
+                                   border border-blue-200
+                                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+                                   transition duration-150 ease-in-out">
+                            Clear search
+                        </button>
+                    </div>
+                @else
+                    {{-- Notes Grid --}}
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        @foreach ($notes as $note)
                         <div class="bg-white border-2 rounded-xl p-5 hover:shadow-lg transition-shadow duration-200
                                     {{ $note->is_important ? 'border-amber-300 bg-amber-50' : 'border-slate-200' }}">
-                            {{-- Important Badge --}}
-                            @if ($note->is_important)
-                                <div class="flex items-center space-x-1 mb-3">
+
+                            {{-- Title --}}
+                            <h4 class="flex items-center gap-1 mb-2">
+                                @if ($note->is_important)
                                     <svg class="w-4 h-4 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
                                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                                     </svg>
-                                    <span class="text-xs font-medium text-amber-700">Important</span>
-                                </div>
-                            @endif
+                                @endif
 
-                            {{-- Title --}}
-                            <h4 class="text-lg font-semibold text-slate-900 mb-2 line-clamp-2">
-                                {{ $note->title }}
+                                <a href="{{ route('notes.edit', $note) }}" class="text-slate-900 hover:text-blue-500 text-lg font-semibold line-clamp-2 ">
+                                    {{ $note->title }}
+                                </a>
                             </h4>
 
                             {{-- Content Preview --}}
-                            <p class="text-sm text-slate-600 mb-4 line-clamp-3">
+                            <p class="text-sm text-slate-600 mb-4 text-ellipsis truncate ...">
                                 {{ $note->content }}
                             </p>
 
@@ -140,9 +221,13 @@
                                 </button>
                             </div>
                         </div>
-                    @endforeach
-                </div>
+                        @endforeach
+                    </div>
+                @endif
             </div>
+
+            {{-- Pagination Component --}}
+            {{ $paginator->links('livewire::note-pagination') }}
         </div>
     @endif
 </div>
