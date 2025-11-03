@@ -14,12 +14,12 @@
             {{-- User Info and Logout --}}
             <div class="flex items-center space-x-2 sm:space-x-4">
                 {{-- User Avatar and Name --}}
-                <div class="flex items-center space-x-3">
+                <div class="flex items-center gap-2 sm:gap-3">
                     {{-- Avatar (visible on all screens) --}}
-                    <div class="flex items-center justify-center w-8 h-8 rounded-full bg-slate-900 border-2 border-slate-900 avatar">
+                    <div class="flex items-center justify-center w-8 h-8 rounded-full bg-slate-900 border-2 border-slate-900 avatar flex-shrink-0">
                     </div>
                     {{-- Name (hidden on mobile, visible on desktop) --}}
-                    <span class="hidden sm:inline text-sm font-medium text-slate-700">{{ Auth::user()->name ?? Auth::user()->email }}</span>
+                    <span class="hidden sm:inline text-sm font-medium text-slate-700 truncate max-w-32">{{ Auth::user()->name ?? Auth::user()->email }}</span>
                 </div>
 
                 {{-- Logout Button --}}
