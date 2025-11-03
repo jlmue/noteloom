@@ -1,17 +1,4 @@
 @php
-// ============================================================================
-// SCROLL BEHAVIOR SETUP
-// ============================================================================
-// When pagination changes, scroll to this element (default: body)
-if (! isset($scrollTo)) {
-    $scrollTo = 'body';
-}
-
-$scrollIntoViewJsSnippet = ($scrollTo !== false)
-    ? <<<JS
-       (\$el.closest('{$scrollTo}') || document.querySelector('{$scrollTo}')).scrollIntoView()
-    JS
-    : '';
 
 // ============================================================================
 // PAGE RANGE CALCULATION
@@ -49,7 +36,6 @@ $endPage = min($lastPage, $startPage + $maxPages - 1);
                     <button
                         type="button"
                         wire:click="previousPage('{{ $paginator->getPageName() }}')"
-                        x-on:click="{{ $scrollIntoViewJsSnippet }}"
                         wire:loading.attr="disabled"
                         class="inline-flex items-center px-3 py-2 text-sm font-medium text-blue-700 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-150 ease-in-out">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -69,7 +55,6 @@ $endPage = min($lastPage, $startPage + $maxPages - 1);
                     <button
                         type="button"
                         wire:click="nextPage('{{ $paginator->getPageName() }}')"
-                        x-on:click="{{ $scrollIntoViewJsSnippet }}"
                         wire:loading.attr="disabled"
                         class="inline-flex items-center px-3 py-2 text-sm font-medium text-blue-700 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-150 ease-in-out">
                         <span class="mr-1.5">Next</span>
@@ -120,7 +105,6 @@ $endPage = min($lastPage, $startPage + $maxPages - 1);
                         <button
                             type="button"
                             wire:click="previousPage('{{ $paginator->getPageName() }}')"
-                            x-on:click="{{ $scrollIntoViewJsSnippet }}"
                             wire:loading.attr="disabled"
                             class="inline-flex items-center justify-center w-10 h-10 text-blue-700 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-150 ease-in-out"
                             aria-label="Previous page">
@@ -136,7 +120,6 @@ $endPage = min($lastPage, $startPage + $maxPages - 1);
                         <button
                             type="button"
                             wire:click="gotoPage(1, '{{ $paginator->getPageName() }}')"
-                            x-on:click="{{ $scrollIntoViewJsSnippet }}"
                             class="inline-flex items-center justify-center w-10 h-10 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-150 ease-in-out"
                             aria-label="Go to page 1">
                             1
@@ -164,7 +147,6 @@ $endPage = min($lastPage, $startPage + $maxPages - 1);
                             <button
                                 type="button"
                                 wire:click="gotoPage({{ $page }}, '{{ $paginator->getPageName() }}')"
-                                x-on:click="{{ $scrollIntoViewJsSnippet }}"
                                 class="inline-flex items-center justify-center w-10 h-10 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-150 ease-in-out"
                                 aria-label="Go to page {{ $page }}">
                                 {{ $page }}
@@ -187,7 +169,6 @@ $endPage = min($lastPage, $startPage + $maxPages - 1);
                         <button
                             type="button"
                             wire:click="gotoPage({{ $lastPage }}, '{{ $paginator->getPageName() }}')"
-                            x-on:click="{{ $scrollIntoViewJsSnippet }}"
                             class="inline-flex items-center justify-center w-10 h-10 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-150 ease-in-out"
                             aria-label="Go to page {{ $lastPage }}">
                             {{ $lastPage }}
@@ -199,7 +180,6 @@ $endPage = min($lastPage, $startPage + $maxPages - 1);
                         <button
                             type="button"
                             wire:click="nextPage('{{ $paginator->getPageName() }}')"
-                            x-on:click="{{ $scrollIntoViewJsSnippet }}"
                             wire:loading.attr="disabled"
                             class="inline-flex items-center justify-center w-10 h-10 text-blue-700 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-150 ease-in-out"
                             aria-label="Next page">
