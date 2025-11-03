@@ -4,18 +4,7 @@
 
     {{-- Main Content --}}
     <main class="max-w-4xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
-        {{-- Breadcrumb --}}
-        <nav class="mb-6">
-            <ol class="flex items-center space-x-2 text-sm">
-                <li>
-                    <a href="{{ route('dashboard') }}" class="text-slate-600 hover:text-slate-900 transition">
-                        Dashboard
-                    </a>
-                </li>
-                <li class="text-slate-400">/</li>
-                <li class="text-slate-900 font-medium">Edit Note</li>
-            </ol>
-        </nav>
+        <livewire:breadcrumb current-page="Edit Note" />
 
         {{-- Page Title --}}
         <div class="mb-8">
@@ -27,6 +16,9 @@
         <div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
             <div class="px-6 py-8 sm:px-8 sm:py-10">
                 <form wire:submit="update" class="space-y-6">
+
+                    <livewire:help-text />
+
                     {{-- Title Field --}}
                     <div>
                         <label for="title" class="block text-sm font-medium text-slate-700 mb-2">
@@ -147,23 +139,6 @@
                         </button>
                     </div>
                 </form>
-            </div>
-        </div>
-
-        {{-- Help Text --}}
-        <div class="mt-6 bg-blue-50 rounded-xl p-4 border border-blue-100">
-            <div class="flex items-start space-x-3">
-                <svg class="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
-                </svg>
-                <div class="text-sm text-blue-900">
-                    <p class="font-medium mb-1">Tips for great notes:</p>
-                    <ul class="list-disc list-inside space-y-1 text-blue-800">
-                        <li>Use descriptive titles to easily find your notes later</li>
-                        <li>Write at least 10 characters for meaningful content</li>
-                        <li>Mark important notes to keep them highlighted</li>
-                    </ul>
-                </div>
             </div>
         </div>
     </main>
