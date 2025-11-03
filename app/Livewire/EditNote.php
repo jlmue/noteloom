@@ -47,9 +47,9 @@ class EditNote extends Component
         return redirect()->route('dashboard');
     }
 
-    public function cancel()
+    public function cancel(): void
     {
-        return redirect()->route('dashboard');
+        $this->js('window.history.back()');
     }
 
     public function render()
