@@ -23,11 +23,11 @@ class NotesList extends Component
     use WithPagination;
 
     /** Search text (synced with URL) */
-    #[Url(as: 'search')]
+    #[Url(as: 'search', keep: true)]
     public string $searchText = '';
 
     /** Sort option (synced with URL) */
-    #[Url(as: 'sort')]
+    #[Url(as: 'sort', keep: true)]
     public string $sortBy = 'importance';
 
     /** Notes per page */
@@ -90,8 +90,12 @@ class NotesList extends Component
     public function render(): Factory|\Illuminate\Contracts\View\View|View
     {
         $searchService = $this->buildSearchService();
-        $paginator = $searchService->paginate($this->perPage);
+
+        // Get statistics BEFORE pagination to avoid any query state issues
         $stats = $searchService->getStatistics();
+
+        // Now paginate
+        $paginator = $searchService->paginate($this->perPage);
 
         return view('livewire.notes-list', [
             'notes' => $paginator->items(),
