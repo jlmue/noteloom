@@ -25,6 +25,6 @@ class NoteSeeder extends Seeder
             ->for($user)
             ->create();
 
-        $this->command->info('✅ Successfully created 20 example notes for user: '.$user->name);
+        $this->command->info('✅ Successfully created 100 example notes based on 20 examples for user: '.$user->name);
     }
 }
