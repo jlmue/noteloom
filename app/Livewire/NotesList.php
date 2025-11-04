@@ -5,7 +5,6 @@ namespace App\Livewire;
 use App\Models\Note;
 use App\Services\NoteSearchService;
 use Illuminate\Contracts\View\Factory;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Livewire\Attributes\On;

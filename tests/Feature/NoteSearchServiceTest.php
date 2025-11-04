@@ -17,7 +17,7 @@ describe('NoteSearchService sort option acceptance', function () {
             ->count(3)
             ->create(['user_id' => $user->id]);
 
-        $service = new NoteSearchService();
+        $service = new NoteSearchService;
         $service->forUser($user)->sort(SortOption::Importance);
 
         expect($service->getSortOption())
@@ -33,7 +33,7 @@ describe('NoteSearchService sort option acceptance', function () {
             ->count(3)
             ->create(['user_id' => $user->id]);
 
-        $service = new NoteSearchService();
+        $service = new NoteSearchService;
 
         $service->forUser($user)
             ->sort('newest');
@@ -47,7 +47,7 @@ describe('NoteSearchService sort option acceptance', function () {
     test('throws exception for invalid string sort option', function () {
         $user = User::factory()->create();
 
-        $service = new NoteSearchService();
+        $service = new NoteSearchService;
 
         expect(fn () => $service->forUser($user)
             ->sort('invalid'))
@@ -73,7 +73,7 @@ describe('NoteSearchService sorting functionality', function () {
                 'is_important' => true,
             ]);
 
-        $service = new NoteSearchService();
+        $service = new NoteSearchService;
         $notes = $service->forUser($user)
             ->sort(SortOption::Importance)
             ->get();
@@ -98,7 +98,7 @@ describe('NoteSearchService statistics', function () {
             ->count(5)
             ->create(['user_id' => $user->id]);
 
-        $service = new NoteSearchService();
+        $service = new NoteSearchService;
 
         $service->forUser($user)
             ->sort(SortOption::Newest);
