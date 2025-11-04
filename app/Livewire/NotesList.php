@@ -3,8 +3,9 @@
 namespace App\Livewire;
 
 use App\Models\Note;
+use App\Services\NoteSearchService;
 use Illuminate\Contracts\View\Factory;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
@@ -15,11 +16,20 @@ use Livewire\WithPagination;
 /**
  * NotesList Component
  *
- * Displays user's notes with search and pagination functionality.
+ * Displays user's notes with search, filtering, and pagination functionality.
  * Uses Livewire's WithPagination trait for seamless pagination handling.
  *
  * Search functionality uses URL parameters (?search=query) making searches
  * shareable and bookmarkable.
+ *
+ * Architecture:
+ * This component follows the Thin Controller principle by delegating
+ * all query logic to NoteSearchService. The component only handles:
+ * - User input (search, sort)
+ * - User actions (delete)
+ * - View rendering
+ *
+ * @see NoteSearchService For query building logic
  */
 class NotesList extends Component
 {
@@ -76,10 +86,20 @@ class NotesList extends Component
 
     /**
      * Delete a note by ID
-     * Livewire's pagination automatically handles page adjustment
-     * Dispatches event to update dashboard widgets
+     *
+     * Security: Ensures the note belongs to the authenticated user
+     * before deletion. Uses firstOrFail() to prevent unauthorized access.
+     *
+     * Side Effects:
+     * - Dispatches 'notes-changed' event to refresh Dashboard statistics
+     * - Sets success flash message for user feedback
+     * - Livewire's pagination automatically handles page adjustment
+     *
+     * @param  int  $noteId  The ID of the note to delete
+     *
+     * @throws ModelNotFoundException If note not found or unauthorized
      */
-    public function delete($noteId): void
+    public function delete(int $noteId): void
     {
         $note = Note::query()
             ->where('id', $noteId)
@@ -95,74 +115,50 @@ class NotesList extends Component
     }
 
     /**
-     * Build the base query for notes
-     * Applies user filter and search if present
+     * Build the search service with current filters applied
+     *
+     * This method creates a configured NoteSearchService instance
+     * with all current filters (user, search, sort) applied.
+     *
+     * @return NoteSearchService Configured service instance
      */
-    private function getNotesQuery(): Builder
+    private function buildSearchService(): NoteSearchService
     {
-        $query = Note::query()
-            ->where('user_id', Auth::id());
+        $service = new NoteSearchService;
 
-        // Apply search filter at database level for better performance
-        if ($this->searchText !== '') {
-            $searchTerm = '%'.$this->searchText.'%';
-            $query->where(function ($q) use ($searchTerm) {
-                $q->where('title', 'like', $searchTerm)
-                    ->orWhere('content', 'like', $searchTerm);
-            });
-        }
-
-        return $query;
-    }
-
-    /**
-     * Get the total count of notes (without search filter)
-     */
-    private function getTotalNotesCount(): int
-    {
-        return Note::query()
-            ->where('user_id', Auth::id())
-            ->count();
-    }
-
-    /**
-     * Apply sorting to the query based on selected sort option
-     */
-    private function applySorting(Builder $query): Builder
-    {
-        return match ($this->sortBy) {
-            'newest' => $query->orderBy('created_at', 'desc'),
-            'oldest' => $query->orderBy('created_at'),
-            'importance' => $query->orderBy('is_important', 'desc')->orderBy('updated_at', 'desc'),
-            default => $query->orderBy('is_important', 'desc')->orderBy('updated_at', 'desc'),
-        };
+        return $service
+            ->forUser(Auth::user())
+            ->search($this->searchText)
+            ->sort($this->sortBy);
     }
 
     /**
      * Render the component with filtered and paginated notes
-     * Livewire's WithPagination trait handles page state and URL parameters automatically
+     *
+     * Delegates all query logic to NoteSearchService, keeping this component
+     * focused on presentation and user interaction.
+     *
+     * Livewire's WithPagination trait handles page state and URL parameters automatically.
+     *
+     * @return Factory|\Illuminate\Contracts\View\View|View The rendered view
      */
     public function render(): Factory|\Illuminate\Contracts\View\View|View
     {
-        // Get total count of all user's notes (for display purposes)
-        $totalNotes = $this->getTotalNotesCount();
+        // Build the search service with current filters
+        $searchService = $this->buildSearchService();
 
-        // Get paginated notes - Livewire automatically handles the page parameter from URL
-        $query = $this->getNotesQuery();
-        $query = $this->applySorting($query);
-        $paginator = $query->paginate($this->perPage);
+        // Get paginated results
+        $paginator = $searchService->paginate($this->perPage);
 
-        // Count important notes in the filtered results
-        $importantCount = $this->getNotesQuery()
-            ->where('is_important', true)
-            ->count();
+        // Get statistics for display
+        $stats = $searchService->getStatistics();
 
         return view('livewire.notes-list', [
             'notes' => $paginator->items(),
-            'totalNotes' => $totalNotes,
-            'filteredCount' => $paginator->total(),
-            'importantNotes' => $importantCount,
-            'hasSearch' => $this->searchText !== '',
+            'totalNotes' => $stats['total'],
+            'filteredCount' => $stats['filtered'],
+            'importantNotes' => $stats['important'],
+            'hasSearch' => $stats['hasSearch'],
             'paginator' => $paginator,
         ]);
     }
