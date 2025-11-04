@@ -9,6 +9,9 @@ use Illuminate\View\View;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
+/**
+ * Form component for creating new notes
+ */
 class CreateNote extends Component
 {
     #[Validate('required|min:3|max:255')]
@@ -19,6 +22,9 @@ class CreateNote extends Component
 
     public bool $is_important = false;
 
+    /**
+     * Save new note and redirect to dashboard
+     */
     public function save()
     {
         $this->validate();
@@ -36,6 +42,9 @@ class CreateNote extends Component
         return redirect()->route('dashboard');
     }
 
+    /**
+     * Cancel and navigate back
+     */
     public function cancel(): void
     {
         $this->js('window.history.back()');

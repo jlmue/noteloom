@@ -8,6 +8,9 @@ use Illuminate\View\View;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
+/**
+ * User login form component
+ */
 class LoginForm extends Component
 {
     #[Validate('required|email')]
@@ -18,6 +21,9 @@ class LoginForm extends Component
 
     public bool $remember = false;
 
+    /**
+     * Authenticate user and redirect to dashboard
+     */
     public function login()
     {
         $this->validate();

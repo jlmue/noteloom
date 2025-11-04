@@ -14,15 +14,15 @@ return new class extends Migration
         Schema::create('notes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')
-                ->comment('Relation to user');
+                ->comment('User who owns the note');
             $table->string('title')
-                ->comment('Title of the note');
+                ->comment('Note title');
             $table->text('content')
-                ->comment('Content of the note');
+                ->comment('Note content');
             $table->boolean('is_important')
                 ->nullable()
                 ->default(false)
-                ->comment('Is it an important note?');
+                ->comment('Whether note is marked as important');
 
             $table->timestamps();
         });

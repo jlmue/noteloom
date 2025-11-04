@@ -14,51 +14,27 @@ use Livewire\Component;
 use Livewire\WithPagination;
 
 /**
- * NotesList Component
+ * Displays paginated list of notes with search and sort
  *
- * Displays user's notes with search, filtering, and pagination functionality.
- * Uses Livewire's WithPagination trait for seamless pagination handling.
- *
- * Search functionality uses URL parameters (?search=query) making searches
- * shareable and bookmarkable.
- *
- * Architecture:
- * This component follows the Thin Controller principle by delegating
- * all query logic to NoteSearchService. The component only handles:
- * - User input (search, sort)
- * - User actions (delete)
- * - View rendering
- *
- * @see NoteSearchService For query building logic
+ * Syncs search and sort with URL parameters
  */
 class NotesList extends Component
 {
     use WithPagination;
 
-    /**
-     * Search query for filtering notes by title or content
-     * Synced with URL parameter ?search=query
-     */
+    /** Search text (synced with URL) */
     #[Url(as: 'search')]
     public string $searchText = '';
 
-    /**
-     * Sort option for ordering notes
-     * Synced with URL parameter ?sort=option
-     * Options: 'importance', 'newest', 'oldest'
-     */
+    /** Sort option (synced with URL) */
     #[Url(as: 'sort')]
     public string $sortBy = 'importance';
 
-    /**
-     * Number of notes to display per page
-     * Used by Livewire's pagination
-     */
+    /** Notes per page */
     protected int $perPage = 6;
 
     /**
-     * Automatically called by Livewire when searchText changes
-     * Resets pagination to page 1 when user performs a new search
+     * Reset pagination when search changes
      */
     public function updatedSearchText(): void
     {
@@ -66,8 +42,7 @@ class NotesList extends Component
     }
 
     /**
-     * Automatically called by Livewire when sortBy changes (via URL parameter)
-     * Resets pagination to page 1 when user changes sort option
+     * Reset pagination when sort changes
      */
     public function updatedSortBy(): void
     {
@@ -75,8 +50,7 @@ class NotesList extends Component
     }
 
     /**
-     * Listen for sort-changed event from NoteSort component
-     * Update sortBy (which updates URL) and pagination is auto-reset via updatedSortBy()
+     * Update sort from NoteSort component event
      */
     #[On('sort-changed')]
     public function updateSort(string $sortBy): void
@@ -85,19 +59,7 @@ class NotesList extends Component
     }
 
     /**
-     * Delete a note by ID
-     *
-     * Security: Ensures the note belongs to the authenticated user
-     * before deletion. Uses firstOrFail() to prevent unauthorized access.
-     *
-     * Side Effects:
-     * - Dispatches 'notes-changed' event to refresh Dashboard statistics
-     * - Sets success flash message for user feedback
-     * - Livewire's pagination automatically handles page adjustment
-     *
-     * @param  int  $noteId  The ID of the note to delete
-     *
-     * @throws ModelNotFoundException If note not found or unauthorized
+     * Delete note (ensures ownership)
      */
     public function delete(int $noteId): void
     {
@@ -108,19 +70,12 @@ class NotesList extends Component
 
         $note->delete();
 
-        // Dispatch event to notify Dashboard component to refresh counts
         $this->dispatch('notes-changed');
-
         session()->flash('success', 'Note deleted successfully!');
     }
 
     /**
-     * Build the search service with current filters applied
-     *
-     * This method creates a configured NoteSearchService instance
-     * with all current filters (user, search, sort) applied.
-     *
-     * @return NoteSearchService Configured service instance
+     * Build search service with current filters
      */
     private function buildSearchService(): NoteSearchService
     {
@@ -132,25 +87,10 @@ class NotesList extends Component
             ->sort($this->sortBy);
     }
 
-    /**
-     * Render the component with filtered and paginated notes
-     *
-     * Delegates all query logic to NoteSearchService, keeping this component
-     * focused on presentation and user interaction.
-     *
-     * Livewire's WithPagination trait handles page state and URL parameters automatically.
-     *
-     * @return Factory|\Illuminate\Contracts\View\View|View The rendered view
-     */
     public function render(): Factory|\Illuminate\Contracts\View\View|View
     {
-        // Build the search service with current filters
         $searchService = $this->buildSearchService();
-
-        // Get paginated results
         $paginator = $searchService->paginate($this->perPage);
-
-        // Get statistics for display
         $stats = $searchService->getStatistics();
 
         return view('livewire.notes-list', [

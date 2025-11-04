@@ -10,57 +10,28 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 
 /**
- * Dashboard Component
+ * Dashboard component displaying user note statistics
  *
- * Displays statistics about user's notes including:
- * - Total notes count
- * - Important notes count
- * - Last updated timestamp
- *
- * Architecture:
- * Uses NoteSearchService for all data retrieval, ensuring consistent
- * query logic across the application.
- *
- * Event Listeners:
- * - 'notes-changed': Refreshes dashboard when notes are created, updated, or deleted
- *
- * @see \App\Services\NoteSearchService For query building logic
+ * Listens to 'notes-changed' event to refresh stats
  */
 class Dashboard extends Component
 {
     /**
-     * Listen for notes changes and refresh dashboard statistics
-     *
-     * Triggered when notes are created, updated, or deleted.
-     * Livewire automatically re-renders the component, so no manual
-     * property updates are needed - render() will be called.
+     * Refresh dashboard when notes change
      */
     #[On('notes-changed')]
     public function refreshStats(): void
     {
-        // Livewire automatically re-renders the component
-        // No need to manually update properties - render() will be called
+        // Livewire automatically re-renders
     }
 
-    /**
-     * Render the dashboard with fresh statistics
-     *
-     * Uses NoteSearchService to fetch statistics efficiently.
-     * The service handles all query logic, keeping this component thin.
-     *
-     * @return Factory|\Illuminate\Contracts\View\View|View The rendered view
-     */
     public function render(): Factory|\Illuminate\Contracts\View\View|View
     {
-        // Initialize search service for the current user
         $searchService = (new NoteSearchService)
             ->forUser(Auth::user())
-            ->sort('newest'); // Get most recent note for "last updated"
+            ->sort('newest');
 
-        // Get statistics efficiently
         $stats = $searchService->getStatistics();
-
-        // Get the most recently updated note for timestamp display
         $latestNote = $searchService->first();
 
         return view('livewire.dashboard', [

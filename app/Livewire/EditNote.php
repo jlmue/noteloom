@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
+/**
+ * Form component for editing existing notes
+ */
 class EditNote extends Component
 {
     public Note $note;
@@ -19,9 +22,11 @@ class EditNote extends Component
 
     public bool $is_important = false;
 
+    /**
+     * Load note and verify ownership
+     */
     public function mount(Note $note)
     {
-        // Ensure the note belongs to the authenticated user
         if ($note->user_id !== Auth::id()) {
             abort(403);
         }
@@ -32,6 +37,9 @@ class EditNote extends Component
         $this->is_important = $note->is_important;
     }
 
+    /**
+     * Update note and redirect to dashboard
+     */
     public function update()
     {
         $this->validate();
@@ -47,6 +55,9 @@ class EditNote extends Component
         return redirect()->route('dashboard');
     }
 
+    /**
+     * Cancel and navigate back
+     */
     public function cancel(): void
     {
         $this->js('window.history.back()');

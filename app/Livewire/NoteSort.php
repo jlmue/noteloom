@@ -5,19 +5,17 @@ namespace App\Livewire;
 use Livewire\Attributes\Reactive;
 use Livewire\Component;
 
+/**
+ * Sort selector component (dispatches to parent)
+ */
 class NoteSort extends Component
 {
-    /**
-     * Current sort option passed from parent component
-     * Used to display active state in UI
-     * Reactive attribute ensures this updates when parent's sortBy changes
-     */
+    /** Current sort option from parent (reactive) */
     #[Reactive]
     public string $currentSort = 'importance';
 
     /**
-     * Update sort option and dispatch event to NotesList
-     * NotesList will update its URL-synced sortBy property
+     * Dispatch sort change to parent component
      */
     public function updateSort(string $sortOption): void
     {

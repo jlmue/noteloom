@@ -47,6 +47,9 @@ class User extends Authenticatable
         ];
     }
 
+    /**
+     * Get all notes for this user
+     */
     public function notes(): HasMany
     {
         return $this->hasMany(Note::class);
