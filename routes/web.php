@@ -6,8 +6,8 @@ use App\Livewire\EditNote;
 use App\Livewire\LoginForm;
 use Illuminate\Support\Facades\Route;
 
-// Guest routes (for unauthenticated users)
-Route::middleware('guest')
+// Guest routes with strict rate limiting (prevent brute force attacks)
+Route::middleware(['guest', 'throttle:20,1'])
     ->group(function () {
         Route::get('/', LoginForm::class)->name('login');
     });
