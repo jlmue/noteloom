@@ -4,6 +4,8 @@
 
 **NoteLoom** is a professional demonstration application showcasing advanced proficiency in Laravel and modern frontend frameworks. Built as a technical showcase, it implements a complete note management system with real-time reactive components, intelligent database-driven search and pagination, and a polished, responsive user interface.
 
+> This application has been developed with Claude Code (Sonnet 4.5)
+
 ## 🎯 Project Context
 
 This application was developed as a solution to a technical assessment challenge with the following constraints:
@@ -165,8 +167,8 @@ Before installing NoteLoom, ensure your system meets these requirements:
 
 - **PHP:** 8.2 or higher
 - **Composer:** Latest version
-- **Node.js:** 18.x or higher
-- **NPM:** 9.x or higher
+- **Node.js:** v24.11.0
+- **NPM:** v11.6.1
 - **Database:** SQLite (default & recommended for quick setup) or MySQL/PostgreSQL
 
 **Check your versions:**
