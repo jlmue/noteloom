@@ -6,6 +6,7 @@ use App\Livewire\EditNote;
 use App\Livewire\LoginForm;
 use Illuminate\Support\Facades\Route;
 
+// TODO: add rate limiting in livewire components
 // Guest routes with strict rate limiting (prevent brute force attacks)
 Route::middleware(['guest', 'throttle:20,1'])
     ->group(function () {
