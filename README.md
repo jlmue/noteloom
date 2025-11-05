@@ -2,9 +2,9 @@
 
 > A modern, full-stack note management application built with Laravel 12 and Livewire 3.6
 
-**NoteLoom** is a professional demonstration application showcasing advanced proficiency in Laravel and modern frontend frameworks. Built as a technical showcase, it implements a complete note management system with real-time reactive components, intelligent database-driven search and pagination, and a polished, responsive user interface.
-
 > This application has been developed with Claude Code (Sonnet 4.5)
+
+**NoteLoom** is a professional demonstration application showcasing advanced proficiency in Laravel and modern frontend frameworks. Built as a technical showcase, it implements a complete note management system with real-time reactive components, intelligent database-driven search and pagination, and a polished, responsive user interface.
 
 ![NoteLoom Application Screenshot](public/images/noteloom.png)
 
