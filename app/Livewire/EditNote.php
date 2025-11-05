@@ -22,6 +22,8 @@ class EditNote extends Component
 
     public bool $is_important = false;
 
+    public ?string $returnUrl = null;
+
     /**
      * Load note and verify ownership
      */
@@ -35,10 +37,13 @@ class EditNote extends Component
         $this->title = $note->title;
         $this->content = $note->content;
         $this->is_important = $note->is_important;
+
+        // Capture referer URL for redirect after save/cancel
+        $this->returnUrl = request()->header('referer');
     }
 
     /**
-     * Update note and redirect to dashboard
+     * Update note and navigate back
      */
     public function update()
     {
@@ -52,15 +57,27 @@ class EditNote extends Component
 
         session()->flash('success', 'Note updated successfully!');
 
-        return redirect()->route('dashboard');
+        return $this->redirectToReferer();
     }
 
     /**
      * Cancel and navigate back
      */
-    public function cancel(): void
+    public function cancel()
     {
-        $this->js('window.history.back()');
+        return $this->redirectToReferer();
+    }
+
+    /**
+     * Redirect to return URL or dashboard
+     */
+    private function redirectToReferer()
+    {
+        if ($this->returnUrl && str_contains($this->returnUrl, url('/'))) {
+            return redirect()->to($this->returnUrl);
+        }
+
+        return redirect()->route('dashboard');
     }
 
     public function render()

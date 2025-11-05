@@ -22,8 +22,18 @@ class CreateNote extends Component
 
     public bool $is_important = false;
 
+    public ?string $returnUrl = null;
+
     /**
-     * Save new note and redirect to dashboard
+     * Capture the referer URL on mount
+     */
+    public function mount()
+    {
+        $this->returnUrl = request()->header('referer');
+    }
+
+    /**
+     * Save new note and navigate back
      */
     public function save()
     {
@@ -39,15 +49,27 @@ class CreateNote extends Component
 
         session()->flash('success', 'Note created successfully!');
 
-        return redirect()->route('dashboard');
+        return $this->redirectToReferer();
     }
 
     /**
      * Cancel and navigate back
      */
-    public function cancel(): void
+    public function cancel()
     {
-        $this->js('window.history.back()');
+        return $this->redirectToReferer();
+    }
+
+    /**
+     * Redirect to return URL or dashboard
+     */
+    private function redirectToReferer()
+    {
+        if ($this->returnUrl && str_contains($this->returnUrl, url('/'))) {
+            return redirect()->to($this->returnUrl);
+        }
+
+        return redirect()->route('dashboard');
     }
 
     public function render(): Factory|\Illuminate\Contracts\View\View|View
