@@ -12,8 +12,8 @@ Route::middleware('guest')
         Route::get('/', LoginForm::class)->name('login');
     });
 
-// Authenticated routes
-Route::middleware('auth')
+// Authenticated routes with rate limiting (60 requests per minute)
+Route::middleware(['auth', 'throttle:60,1'])
     ->group(function () {
         Route::get('/dashboard', Dashboard::class)->name('dashboard');
         Route::get('/notes/create', CreateNote::class)->name('notes.create');
