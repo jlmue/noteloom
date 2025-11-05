@@ -6,6 +6,8 @@
 
 > This application has been developed with Claude Code (Sonnet 4.5)
 
+![NoteLoom Application Screenshot](public/images/noteloom.png)
+
 ## 🎯 Project Context
 
 This application was developed as a solution to a technical assessment challenge with the following constraints:
