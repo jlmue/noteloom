@@ -349,8 +349,6 @@ Email:    demo@noteloom.com
 Password: yFvvYxs!RYPR1fY2gNu&%Wy#LwFpicik
 ```
 
-**📝 Note:** If you didn't run the seeder, you can create a new account using the registration form.
-
 ### Included Demo Data
 
 The seeder creates:
@@ -418,12 +416,6 @@ This section provides a comprehensive walkthrough of using NoteLoom after instal
    Password: yFvvYxs!RYPR1fY2gNu&%Wy#LwFpicik
    ```
    _(Only available if you ran `php artisan db:seed`)_
-
-3. **Option B: Create New Account**
-   - Click "Register" or "Sign Up"
-   - Enter your name, email, and password
-   - Click "Register" to create your account
-   - You'll be automatically logged in
 
 ### Dashboard Overview
 
