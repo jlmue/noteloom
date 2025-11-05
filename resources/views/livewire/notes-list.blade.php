@@ -178,7 +178,7 @@
                                     </svg>
                                 @endif
 
-                                <a href="{{ route('notes.edit', $note) }}" class="text-slate-900 hover:text-blue-500 text-lg font-semibold line-clamp-2 ">
+                                <a href="{{ route('notes.edit', $note) }}" class="text-slate-900 hover:text-blue-500 text-lg font-semibold truncate block">
                                     {{ $note->title }}
                                 </a>
                             </h4>
