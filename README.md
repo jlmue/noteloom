@@ -211,7 +211,7 @@ This command will:
 
 ### 3. Seed Demo Data (Optional)
 
-To populate the application with 20 example notes and a demo user:
+To populate the application with 100 example notes and a demo user:
 
 ```bash
 php artisan db:seed
@@ -351,7 +351,7 @@ Password: yFvvYxs!RYPR1fY2gNu&%Wy#LwFpicik
 
 The seeder creates:
 - ✅ 1 demo user account
-- ✅ 20 realistic example notes with varied content
+- ✅ 100 realistic example notes with varied content
 - ✅ Mix of important and regular notes
 - ✅ Timestamps spanning the last 3 months
 
@@ -461,8 +461,8 @@ After logging in, you'll see the main dashboard with:
 - Each note card shows:
   - Title (bold, larger font)
   - Content preview (truncated if long)
-  - Creation date (e.g., "04.11.2025")
-  - Updated at (In human readable format)
+  - Creation date (e.g. "04.11.2025")
+  - Updated at (In human-readable format)
   - Importance icon (gold star if marked important)
   - Action buttons (Edit, Delete)
 
