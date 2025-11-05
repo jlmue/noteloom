@@ -4,6 +4,8 @@
 
 > This application has been developed with Claude Code (Sonnet 4.5)
 
+> Future security improvements are contained in SECURITY_REPORT.md file
+
 **NoteLoom** is a professional demonstration application showcasing advanced proficiency in Laravel and modern frontend frameworks. Built as a technical showcase, it implements a complete note management system with real-time reactive components, intelligent database-driven search and pagination, and a polished, responsive user interface.
 
 ![NoteLoom Application Screenshot](public/images/noteloom.png)
